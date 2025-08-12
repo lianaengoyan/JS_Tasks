@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn" style="background-color: rgb(53, 212, 39); font-size: 30px; color: black; padding: 40px 70px; border-radius: 10px"> Click Me </button>
+
+    <script>
+        let button = document.getElementById('btn');
+
+        btn.addEventListener('click', () => {
+            btn.textContent = "Processing..."
+
+            setTimeout(() => {
+                btn.textContent = "Done!"
+            }, 2000);
+        })
+    </script>
+    
+</body>
+</html>
