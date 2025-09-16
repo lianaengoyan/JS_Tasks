@@ -17,9 +17,7 @@ function selectionSort (arr) {
             swapped = true; //swapped ayn npatakov e grac, vor ete array shut sortavorvi, avel chfra
         }
         
-        if(!swapped) {
-            break;
-        }
+        if(!swapped) break;
     return arr;
 }
 
