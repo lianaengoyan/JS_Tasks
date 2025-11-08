@@ -21,7 +21,7 @@ class RBTree {
         this.#root = this.#nil;
     }
 
-    rotateLeft(current) {
+    #rotateLeft(current) {
         let pivotNode = current.right;
         current.right = pivotNode.left;
 
@@ -43,7 +43,7 @@ class RBTree {
         current.parent = pivotNode;
     }
 
-    rotateRight(current) {
+    #rotateRight(current) {
         let pivotNode = current.left;
         current.left = pivotNode.right;
 
@@ -80,11 +80,11 @@ class RBTree {
                 } else {
                     if (newNode === newNode.parent.right) {
                         newNode = newNode.parent;
-                        this.rotateLeft(newNode);
+                        this.#rotateLeft(newNode);
                     }
                     newNode.parent.color = BLACK;
                     grandparent.color = RED;
-                    this.rotateRight(grandparent);
+                    this.#rotateRight(grandparent);
                 }
             } else {
                 let uncle = grandparent.left;
@@ -97,11 +97,11 @@ class RBTree {
                 } else {
                     if (newNode === newNode.parent.left) {
                         newNode = newNode.parent;
-                        this.rotateRight(newNode);
+                        this.#rotateRight(newNode);
                     }
                     newNode.parent.color = BLACK;
                     grandparent.color = RED;
-                    this.rotateLeft(grandparent);
+                    this.#rotateLeft(grandparent);
                 }
             }
         }
