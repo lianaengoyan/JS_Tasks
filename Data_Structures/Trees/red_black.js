@@ -23,7 +23,7 @@ class RBTree {
         current.right = pivotNode.left;
 
         if(pivotNode.left !== this.nil) {
-
+            pivotNode.left.parent = current;
         }
 
         pivotNode.parent = current.parent;
@@ -45,7 +45,7 @@ class RBTree {
         current.left = pivotNode.right;
 
         if (pivotNode.right !== this.nil) {
-            pivotNode.left.parent = current;
+            pivotNode.right.parent = current;
         }
 
         pivotNode.parent = current.parent;
@@ -65,31 +65,50 @@ class RBTree {
     insertFixUp(newNode) {
         while (newNode.parent.color === RED) {
             let grandparent = newNode.parent.parent;
-
+    
             if (newNode.parent === grandparent.left) {
-                let uncleNode = grandparent.right;
-                    if (newNode.parent.color === RED && uncleNode.color === RED) {
-                        newNode.parent.color = BLACK;
-                        uncleNode.color = BLACK;
-                        grandparent.color = RED;
-                        newNode = grandparent;
-                    } else {
-                        if (newNode === newNode.parent.right) {
-                            newNode = newNode.parent;
-                            this.rotateLeft(newNode);
-                        }
-
-                        newNode.parent.color = BLACK;
-                        grandparent.color = RED;
-                        this.rotateRight(grandparent);
+                let uncle = grandparent.right;
+    
+                if (uncle.color === RED) {
+                    newNode.parent.color = BLACK;
+                    uncle.color = BLACK;
+                    grandparent.color = RED;
+                    newNode = grandparent;
+                } else {
+                    if (newNode === newNode.parent.right) {
+                        newNode = newNode.parent;
+                        this.rotateLeft(newNode);
                     }
+                    newNode.parent.color = BLACK;
+                    grandparent.color = RED;
+                    this.rotateRight(grandparent);
+                }
+            } else {
+                let uncle = grandparent.left;
+    
+                if (uncle.color === RED) {
+                    newNode.parent.color = BLACK;
+                    uncle.color = BLACK;
+                    grandparent.color = RED;
+                    newNode = grandparent;
+                } else {
+                    if (newNode === newNode.parent.left) {
+                        newNode = newNode.parent;
+                        this.rotateRight(newNode);
+                    }
+                    newNode.parent.color = BLACK;
+                    grandparent.color = RED;
+                    this.rotateLeft(grandparent);
+                }
             }
         }
+    
         this.root.color = BLACK;
     }
+    
   
-    insert(data) {
-        const newNode = new TreeNode(data);
+    insert(val) {
+        const newNode = new TreeNode(val);
         let parentNode = this.nil;
         let current = this.root;
 
@@ -127,3 +146,5 @@ rb.insert(8);
 rb.insert(3);
 rb.insert(1);
 rb.insert(20);
+
+rb.print();
