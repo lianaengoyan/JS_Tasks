@@ -12,24 +12,27 @@ class TreeNode {
 }
 
 class RBTree {
+    #root;
+    #nil;
+
     constructor() {
-        this.nil = new TreeNode(null);
-        this.nil.color = BLACK;
-        this.root = this.nil;
+        this.#nil = new TreeNode(null);
+        this.#nil.color = BLACK;
+        this.#root = this.#nil;
     }
 
     rotateLeft(current) {
         let pivotNode = current.right;
         current.right = pivotNode.left;
 
-        if(pivotNode.left !== this.nil) {
+        if(pivotNode.left !== this.#nil) {
             pivotNode.left.parent = current;
         }
 
         pivotNode.parent = current.parent;
 
-        if(current.parent === this.nil) {
-            this.root = pivotNode;
+        if(current.parent === this.#nil) {
+            this.#root = pivotNode;
         } else if(current === current.parent.left) {
             current.parent.left = pivotNode;
         } else {
@@ -44,14 +47,14 @@ class RBTree {
         let pivotNode = current.left;
         current.left = pivotNode.right;
 
-        if (pivotNode.right !== this.nil) {
+        if (pivotNode.right !== this.#nil) {
             pivotNode.right.parent = current;
         }
 
         pivotNode.parent = current.parent;
 
-        if (current.parent === this.nil) {
-            this.root = pivotNode;
+        if (current.parent === this.#nil) {
+            this.#root = pivotNode;
         } else if(current === current.parent.right){
             current.parent.right = pivotNode;
         } else {
@@ -62,7 +65,7 @@ class RBTree {
         current.parent = pivotNode;
     }
 
-    insertFixUp(newNode) {
+    #insertFixUp(newNode) {
         while (newNode.parent.color === RED) {
             let grandparent = newNode.parent.parent;
     
@@ -103,16 +106,16 @@ class RBTree {
             }
         }
     
-        this.root.color = BLACK;
+        this.#root.color = BLACK;
     }
     
   
     insert(val) {
         const newNode = new TreeNode(val);
-        let parentNode = this.nil;
-        let current = this.root;
+        let parentNode = this.#nil;
+        let current = this.#root;
 
-        while (current !== this.nil) {
+        while (current !== this.#nil) {
             parentNode = current;
                 if (newNode.data < current.data) {
                     current = current.left;
@@ -123,8 +126,8 @@ class RBTree {
                 }
         }
 
-        if (parentNode === this.nil) {
-            this.root = newNode;
+        if (parentNode === this.#nil) {
+            this.#root = newNode;
         } else if (newNode.data < parentNode.data) {
             parentNode.left = newNode;
         } else {
@@ -132,10 +135,26 @@ class RBTree {
         }
 
         newNode.parent = parentNode;
-        newNode.left = newNode.right = this.nil;
+        newNode.left = newNode.right = this.#nil;
 
-        this.insertFixUp(newNode);
+        this.#insertFixUp(newNode);
     }
+
+    print(node = this.#root, indent = "", isLeft = true) {
+        if (node === this.#nil || node.data === null) return;
+    
+        if (node.right !== this.#nil) {
+            this.print(node.right, indent + (isLeft ? "│   " : "    "), false);
+        }
+    
+        const symbol = node.color === RED ? "R" : "B";
+        console.log(indent + (isLeft ? "└── " : "┌── ") + `${node.data} ${symbol}`);
+    
+        if (node.left !== this.#nil) {
+            this.print(node.left, indent + (isLeft ? "    " : "│   "), true);
+        }
+    }
+    
 }
 
 const rb = new RBTree();
